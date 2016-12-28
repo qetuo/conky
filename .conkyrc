@@ -42,7 +42,7 @@ TEXT
 
 ${alignc}${font Open Sans Light:pixelsize=55}${color #4C7523}MINT${color lightgrey}${font Open Sans Light:pixelsize=35}STATS${font }
 
-${color #4C7523}SYSTEM${hr}$font
+${font size=8}${color #4C7523}SYSTEM${hr}$font
 ${color lightgrey}OS: $alignr ${execi 60 cat /etc/issue.net}
 ${color lightgrey}Host: $alignr $nodename.local
 ${color lightgrey}Kernal: $alignr $kernel ($machine)
