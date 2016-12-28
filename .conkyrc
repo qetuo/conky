@@ -1,0 +1,92 @@
+# conky configuration
+##############################################
+## Settings
+##############################################
+use_xft yes
+xftfont cure:size=10
+update_interval 2
+own_window yes
+own_window_transparent yes
+##############################################
+## cairo-compmgr
+##############################################
+own_window_type desktop
+own_window_argb_visual true
+own_window_argb_value 0
+##############################################
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+out_to_console no
+cpu_avg_samples 2
+net_avg_samples 2
+double_buffer yes
+maximum_width 320
+draw_shades no
+draw_outline no
+draw_borders no
+stippled_borders 1
+border_width 20
+default_color white
+default_shade_color white
+default_outline_color white
+alignment top_right
+gap_x 15
+gap_y 0
+use_spacer left
+no_buffers yes
+uppercase no
+##############################################
+#  Output
+##############################################
+TEXT
+
+
+${alignc}${font Open Sans Light:pixelsize=55}${color #4C7523}MINT${color lightgrey}${font Open Sans Light:pixelsize=35}STATS${font }
+
+${font size=7}${color #4C7523}SYSTEM${hr}$font
+${color lightgrey}OS: $alignr ${execi 60 cat /etc/issue.net}
+${color lightgrey}Host: $alignr $nodename.local
+${color lightgrey}Kernal: $alignr $kernel ($machine)
+${color lightgrey}Uptime: $alignr ${color}$uptime_short | ${color lightgrey}Load: $color$loadavg${color lightgrey}
+${color #4C7523}${hr}
+
+${font size=7}${color #4C7523}Processing Units${hr}$font
+${color lightgrey}AMD FX-6300S ${alignr} Usage: ${color}${cpu cpu0}%
+${color #4C7523}${hr}
+${color lightgrey} CPU1: ${color}${cpu cpu1}% ${color lightgrey}@ ${color}${freq 1} MHz${color #4C7523}${alignr}${color lightgrey}CPU2: ${color}${cpu cpu2}% ${color lightgrey}@ ${color}${freq 2} MHz  
+${color #4C7523}${cpubar cpu1 6,150}${alignr}${color #4C7523}${cpubar cpu2 6,150}
+${color lightgrey} CPU3: ${color}${cpu cpu3}% ${color lightgrey}@ ${color}${freq 3} MHz${color #4C7523}${alignr}${color lightgrey}CPU4: ${color}${cpu cpu4}% ${color lightgrey}@ ${color}${freq 4} MHz  
+${color #4C7523}${cpubar cpu3 6,150}${alignr}${color #4C7523}${cpubar cpu4 6,150}
+${color lightgrey} CPU5: ${color}${cpu cpu5}% ${color lightgrey}@ ${color}${freq 5} MHz${color #4C7523}${alignr}${color lightgrey}CPU6: ${color}${cpu cpu6}% ${color lightgrey}@ ${color}${freq 6} MHz  
+${color #4C7523}${cpubar cpu3 6,150}${alignr}${color #4C7523}${cpubar cpu4 6,150}
+${color lightgrey}CPU Temp: ${color}${hwmon 0 temp 1}°C ${alignr}${color lightgrey}Board Temp: ${execi 60 sensors | grep 'MB Temperature' | cut -c 22-28}
+${color lightgrey}CPU Fan: ${exec sensors | grep 'CPU Fan Speed' | cut -c 20-27}${alignr}${color lightgrey}Case Fan: ${exec sensors | grep 'Chassis Fan Speed' | cut -c 20-27}
+
+${font size=7}${color #4C7523}TIME${hr}$font
+${alignc}${color lightgray}${time %A} ${time %d} ${time  %B} ${time %Y}$font
+${font Open Sans Light:pixelsize=25}${color lightgray}CST ${alignr}${time %l:%M %p}$font
+${font Open Sans Light:pixelsize=25}${color lightgray}UTC ${alignr}${execi 5 date -u +%R}$font
+
+${font size=7}${color #4C7523}MEMORY${hr}$font
+${color lightgrey}Ram  ${alignc}               ${color}$mem${color lightgrey} / ${color}$memmax ${alignr}${memperc}% Used
+${color #4C7523}${membar 6,318}
+${color lightgrey}Swap ${alignc}                 ${color}${swap}${color lightgrey} / ${color}${swapmax} ${alignr}${swapperc}% Used
+${color #4C7523}${swapbar 6,318} S{color}
+
+${font size=7}${color #4C7523}STORAGE${hr}$font
+${color lightgrey}Processes: ${alignr}$processes ($running_processes running)
+${color lightgrey}$fs_type ${alignc}               ${color}${fs_used}${color lightgrey} / ${color}${fs_size} ${alignr}${fs_used_perc /}% Used
+${color #4C7523}${fs_bar 6,318 /}
+
+${color lightgrey}Disk Read IO: $color${diskio_read}${alignr}${color lightgrey}Disk Write IO: ${color}${diskio_write}
+${color #000000}${diskiograph_read 12,145 000000 4C7523}${alignr}${color #000000}${diskiograph_write 12,145 000000 4C7523}
+
+${font size=7}${color #4C7523}Network${hr}$font
+${color lightgray}Local IP: $alignr ${addr enp4s0}
+${color lightgray}Public IP: $alignr ${exec wget http://ipinfo.io/ip -qO -}
+
+${color #000000}${downspeedgraph enp4s0 20,318 C7F994 4C7523}
+${color lightgrey}Download: ${downspeed enp4s0} $alignr Total: ${totaldown enp4s0}
+
+${color #000000}${upspeedgraph enp4s0 20,318 C7F994 4C7523}
+${color lightgrey}Upload: ${upspeed enp4s0} $alignr Total: ${totalup enp4s0}
+
