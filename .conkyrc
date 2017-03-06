@@ -29,7 +29,7 @@ default_color white
 default_shade_color white
 default_outline_color white
 alignment top_right
-gap_x 15
+gap_x 10
 gap_y 0
 use_spacer left
 no_buffers yes
@@ -40,11 +40,12 @@ uppercase no
 TEXT
 
 
-${alignc}${font Open Sans Light:pixelsize=55}${color #4C7523}MINT${color lightgrey}${font Open Sans Light:pixelsize=35}STATS${font }
+${alignc}${font Open Sans Light:pixelsize=35}${color #4C7523}T.A.R.D.I.S.${color lightgrey}${font Open Sans Light:pixelsize=20}CONSOLE${font }
 
 ${font size=8}${color #4C7523}SYSTEM${hr}$font
 ${color lightgrey}OS: $alignr ${execi 60 cat /etc/issue.net}
 ${color lightgrey}Host: $alignr $nodename.local
+${color lightgrey}Model: $alignr TT Type 40, Mark 3
 ${color lightgrey}Kernal: $alignr $kernel ($machine)
 ${color lightgrey}Uptime: $alignr ${color}$uptime_short | ${color lightgrey}Load: $color$loadavg${color lightgrey}
 ${color #4C7523}${hr}
@@ -59,13 +60,17 @@ ${color #4C7523}${cpubar cpu3 6,150}${alignr}${color #4C7523}${cpubar cpu4 6,150
 ${color lightgrey} CPU5: ${color}${cpu cpu5}% ${color lightgrey}@ ${color}${freq 5} MHz${color #4C7523}${alignr}${color lightgrey}CPU6: ${color}${cpu cpu6}% ${color lightgrey}@ ${color}${freq 6} MHz  
 ${color #4C7523}${cpubar cpu3 6,150}${alignr}${color #4C7523}${cpubar cpu4 6,150}
 ${color lightgrey}CPU Temp: ${color}${hwmon 0 temp 1}°C ${alignr}${color lightgrey}Board Temp: ${execi 60 sensors | grep 'MB Temperature' | cut -c 22-28}
+${color lightgrey}GPU Temp: ${color}${exec nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits}°C ${alignr}${color lightgrey}GPU Fan: ${execi 5 nvidia-settings -q [fan:0]/GPUCurrentFanSpeed -t} %
 ${color lightgrey}CPU Fan: ${exec sensors | grep 'CPU Fan Speed' | cut -c 20-27}${alignr}${color lightgrey}Case Fan: ${exec sensors | grep 'Chassis Fan Speed' | cut -c 20-27}
 
+
 ${font size=8}${color #4C7523}MEMORY${hr}$font
-${color lightgrey}Ram  ${alignc}               ${color}$mem${color lightgrey} / ${color}$memmax ${alignr}${memperc}% Used
+${color lightgrey}SYS RAM:  ${alignc}               ${color}$mem${color lightgrey} / ${color}$memmax ${alignr}${memperc}% Used
 ${color #4C7523}${membar 6,318}
 ${color lightgrey}Swap ${alignc}                 ${color}${swap}${color lightgrey} / ${color}${swapmax} ${alignr}${swapperc}% Used
 ${color #4C7523}${swapbar 6,318} S{color}
+${color lightgrey}GPU VRAM: ${alignr}             ${color}${exec nvidia-smi --query-gpu=memory.used --format=csv,noheader}${color lightgrey} / ${color}${exec nvidia-smi --query-gpu=memory.total --format=csv,noheader}
+
 
 ${font size=8}${color #4C7523}STORAGE${hr}$font
 ${color lightgrey}Processes: ${alignr}$processes ($running_processes running)
@@ -75,17 +80,19 @@ ${color #4C7523}${fs_bar 6,318 /}
 ${color lightgrey}Disk Read IO: $color${diskio_read}${alignr}${color lightgrey}Disk Write IO: ${color}${diskio_write}
 ${color #000000}${diskiograph_read 12,145 000000 4C7523}${alignr}${color #000000}${diskiograph_write 12,145 000000 4C7523}
 
-${font size=8}${color #4C7523}Network${hr}$font
+${font size=8}${color #4C7523}NETWORK${hr}$font
 ${color lightgray}Local IP: $alignr ${addr enp4s0}
 ${color lightgray}Public IP: $alignr ${exec wget http://ipinfo.io/ip -qO -}
-
-${color #000000}${downspeedgraph enp4s0 20,318 C7F994 4C7523}
 ${color lightgrey}Download: ${downspeed enp4s0} $alignr Total: ${totaldown enp4s0}
-
-${color #000000}${upspeedgraph enp4s0 20,318 C7F994 4C7523}
 ${color lightgrey}Upload: ${upspeed enp4s0} $alignr Total: ${totalup enp4s0}
 
-${font size=8}${color #4C7523}TIME${hr}$font
+${font size=8}${color #4C7523}LOCATION${hr}$font
+${color lightgrey}Latitude: $alignr 41.638924
+${color lightgrey}Longitude: $alignr -87.515062
+${color lightgrey}Grid Square $alignr EN61fp
+${color lightgrey}City, State, Country: $alignr Hammond, Indiana USA
+
+${font size=8}${color #4C7523}CURRENT TIME AND DATE${hr}$font
 ${alignc}${font Open Sans Light:pixelsize=35}${color lightgray}${time %l:%M %p} CST$font
 ${alignc}${font Open Sans Light:pixelsize=35}${color lightgray}${execi 5 date -u +%R} UTC$font
 ${alignc}${color lightgray}${time %A} ${time %d} ${time  %B} ${time %Y}$font
